@@ -1,0 +1,37 @@
+Para trabajar con metricas debe incluir a micrometer:
+Tener presente que debe estar la dependencia de actuator.
+Se consulta El endpoint -> http://localhost:9090/actuator
+Para consultar las metricas, vemos las metricas que estan en nuestro sistemas -> http://localhost:9090/actuator/metrics y
+utilizamos este formato para que prometues pueda entregar las metricas en un formato entendible.
+
+Vamos a utilizar la metrica http.server.request -> http://localhost:9090/actuator/metrics/http.server.requests
+
+Para consultar cuantas veces se esta consultado el api de Dragonball realizamos:
+->http://localhost:8082/actuator/metrics/http.server.requests?tag=uri:/api/v1/dragonball
+De esta manera solo me concentro en las méticas de este api.
+
+Para ver solo las metricas que respondieron 200 
+-> http://localhost:8082/actuator/metrics/http.server.requests?tag=uri:/api/v1/dragonball&tag=status:200
+
+Para ver otra métrica de toda la memoria usada consultasmo 
+-> http://localhost:8082/actuator/metrics/jvm.memory.used
+Para ver solo la memoria que consume el heap:
+-> http://localhost:8082/actuator/metrics/jvm.memory.used?tag=area:heap
+
+Metricas personalizadas para eso se utiliza MeterRegistry;
+Nota -> La nueva metrica se registra cuando se ejecuta por primera vez, de lo contrario no la vamos a encontrar.
+
+Consultamos el endpoint de saludo: http://localhost:8082/api/v1/dragonball/greetings que registra la metrica personalizada
+alejo.dragonball.name
+Consultamos la métrica
+->  http://localhost:8082/actuator/metrics/alejo.dragonball.name
+Filtramos los valores de la métrica
+->http://localhost:8082/actuator/metrics/alejo.dragonball.name?tag=level:jr
+->http://localhost:8082/actuator/metrics/alejo.dragonball.name?tag=level:sr
+
+
+Podemos apoyarnos de la anotación @Time para tener el total de peticiones que se realiza a un método y el tiempo de respuesta.
+Esta anotación solo se aplica en controladores.
+
+Para utilizar la @Timed se debe agregar la dependencia de AOP y crear una configuración de Bean según la documentación de 
+Micrometer.

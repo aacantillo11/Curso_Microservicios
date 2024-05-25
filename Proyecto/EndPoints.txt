@@ -1,0 +1,18 @@
+Config server:
+Para consultar las configuraciones definidad en nuestro repositorio de configuraciones:
+http://localhost:8888/alejo-dragon-ball/prod
+
+Ms alejo-dragon-ball:
+EndPoint de saludo:
+http://localhost:8082/api/v1/dragonball/greetings
+
+Para actuailzar las configuraciones realizamos una petición Post al endpoint para refrescar las configuraciones:
+http://localhost:8082/actuator/refresh 
+
+Eureka Server - service discovery
+http://localhost:8761/
+
+Para acceder a la información del API de EUreka consultamos este endpoint:
+http://localhost:8761/eureka/apps  -> Nos entrega la información en XML
+
+Si quere la información oen JSON realizamos una petición con el header aceppte
